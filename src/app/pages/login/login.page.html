@@ -4,16 +4,43 @@
     <p class="subTitle">Sign in to access your account</p>
   </div>
 
-  <form>
+  <form [formGroup]="loginForm" novalidate>
     <div class="ion-padding">
       <ion-item>
-        <ion-input placeholder="username" class="input"></ion-input>
+        <ion-input formControlName="email" placeholder="email" class="input"></ion-input>
         <ion-icon name="person-outline"></ion-icon>
       </ion-item>
+
+      <div *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid">
+        <ion-text *ngIf="loginForm.get('email')?.hasError('required')">
+          Email is required.
+        </ion-text>
+        <ion-text *ngIf="loginForm.get('email')?.hasError('pattern')">
+          Email should be valid.
+        </ion-text>
+      </div>
+
+
       <ion-item>
-        <ion-input placeholder="password" class="input"></ion-input>
+        <ion-input formControlName="password" placeholder="password" class="input"></ion-input>
         <ion-icon name="lock-closed-outline"></ion-icon>
       </ion-item>
+
+      <div *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid">
+        <ion-text *ngIf="loginForm.get('password')?.hasError('required')">
+          Password is required.
+        </ion-text>
+
+        <ion-text *ngIf="loginForm.get('password')?.hasError('pattern')">
+          Password must atleast have
+          One Character
+          One Capital Letter
+          One Number
+          Minimum 8 characters.
+        </ion-text>
+
+      </div>
+
       <div class="forgotPassword">
         <a [routerLink]="['/reset-password']" style="color: #FFC33F"> Forgot password?</a>
       </div>
@@ -23,7 +50,7 @@
     </div>
 
     <ion-fab vertical="bottom" horizontal="end" style="margin-bottom: 30px;">
-      <ion-fab-button [routerLink]="['/home']">
+      <ion-fab-button (click)="login()">
         <ion-icon name="chevron-forward"></ion-icon>
       </ion-fab-button>
     </ion-fab>
