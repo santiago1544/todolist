@@ -4,20 +4,53 @@
     <p class="subTitle">Sign up to create your account</p>
   </div>
 
-  <form>
+  <form [formGroup]="regForm" novalidate>
     <div class="ion-padding">
       <ion-item>
-        <ion-input placeholder="name" class="input"></ion-input>
+        <ion-input formControlName="fullname" placeholder="name" class="input"></ion-input>
         <ion-icon name="person-outline"></ion-icon>
       </ion-item>
+
+      <div *ngIf="regForm.get('fullname')?.touched && regForm.get('fullname')?.invalid">
+        <ion-text *ngIf="regForm.get('fullname')?.hasError('required')">
+          Fullname is required.
+        </ion-text>
+      </div>
+
       <ion-item>
-        <ion-input placeholder="email" class="input"></ion-input>
+        <ion-input formControlName="email" placeholder="email" class="input"></ion-input>
         <ion-icon name="person-outline"></ion-icon>
       </ion-item>
+
+      <div *ngIf="regForm.get('email')?.touched && regForm.get('email')?.invalid">
+        <ion-text *ngIf="regForm.get('email')?.hasError('required')">
+          Email is required.
+        </ion-text>
+        <ion-text *ngIf="regForm.get('email')?.hasError('pattern')">
+          Email should be valid.
+        </ion-text>
+      </div>
+
       <ion-item>
-        <ion-input placeholder="password" class="input"></ion-input>
+        <ion-input formControlName="password" placeholder="password" class="input"></ion-input>
         <ion-icon name="lock-closed-outline"></ion-icon>
       </ion-item>
+
+      <div *ngIf="regForm.get('password')?.touched && regForm.get('password')?.invalid">
+        <ion-text *ngIf="regForm.get('password')?.hasError('required')">
+          Password is required.
+        </ion-text>
+        <ion-text *ngIf="regForm.get('password')?.hasError('pattern')">
+          Password must atleast have
+          One Character
+          One Capital Letter
+          One Number
+          Minimum 8 characters.
+        </ion-text>
+
+      </div>
+
+
       <div class="signinLink">
         <p>Already a member?<a style="color: #FFC33F;" [routerLink]="['/login']">Signin now</a></p>
       </div>
