@@ -44,7 +44,7 @@ export class LoginPage implements OnInit {
 
       if(user){
         loading.dismiss();
-        this.router.navigateByUrl('/home', { replaceUrl: true });
+        this.router.navigateByUrl('/journals');
       } else{
         console.log("Login failed");
       }
