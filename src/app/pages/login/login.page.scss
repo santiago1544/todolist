@@ -41,6 +41,13 @@ ion-item{
     }
 }
 
+.errorInput{
+    color: red;
+    font-weight: 300;
+    font-size: small;
+    padding-top: -16px;
+}
+
 .forgotPassword{
     display: flex;
     justify-content: flex-end;
@@ -49,4 +56,5 @@ ion-item{
         font-size: 0.8rem;
         text-decoration: none;
     }
+
 }

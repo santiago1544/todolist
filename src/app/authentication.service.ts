@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import firebase from 'firebase/compat/app';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
+import {User} from "firebase/auth";
 
 @Injectable({
   providedIn: 'root',
@@ -26,6 +27,14 @@ export class AuthenticationService {
   }
 
   async getProfile() {
-    return await this.ngFireAuth.currentUser;
+    return new Promise<User | null> ((resolve, reject) => {
+      this.ngFireAuth.onAuthStateChanged((user) => {
+        if (user) {
+          resolve(user);
+        } else {
+          resolve(null);
+        }
+      },reject) ;
+    })
   }
 }
