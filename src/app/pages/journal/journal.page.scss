@@ -11,3 +11,49 @@
     font-size: 1.5em;
     color: black;
 }
+
+.content{
+  font-size: 0.9rem;
+  color: #555;
+  white-space: normal;
+  word-break: break-word;
+}
+
+.card-header {
+  padding-bottom: 8px;
+}
+
+.card-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.completed {
+    text-decoration: line-through;
+    opacity: 0.5;
+    color: #999;
+}
+
+ion-card {
+  border-radius: 16px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+  background: #ffffff;
+  transition: transform 0.15s ease;
+}
+
+ion-card:active {
+  transform: scale(0.98);
+}
+
+ion-content {
+  --background: #f6f7fb;
+}
+
+ion-item {
+  margin: 12px;
+  border-radius: 12px;
+  --background: #ffffff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
