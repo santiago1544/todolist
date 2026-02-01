@@ -24,6 +24,20 @@
     <ion-item>
       <ion-input label="Title" [(ngModel)]="journal.title"></ion-input>
     </ion-item>
+
+    <ion-item>
+      <ion-select
+        label="Category"
+        labelPlacement="stacked"
+        [(ngModel)]="selectedCategoryId"
+        placeholder="Select category">
+
+        <ion-select-option *ngFor="let cat of categories" [value]="cat.id">
+          {{ cat.title }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+
     <ion-textarea class="text-content" lines="none" [(ngModel)]="journal.content"></ion-textarea>
 
   </div>

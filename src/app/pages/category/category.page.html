@@ -1,0 +1,30 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+      <ion-buttons slot="start">
+
+        <ion-button (click)="updateCategory()">
+          <ion-icon color="secondary" size="large" slot="icon-only" name="save"></ion-icon>
+        </ion-button>
+
+      </ion-buttons>
+
+      <ion-buttons slot="end">
+
+        <ion-button (click)="deleteCategory()">
+          <ion-icon color="danger" size="large" slot="icon-only" name="trash-outline"></ion-icon>
+        </ion-button>
+
+      </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <div *ngIf="category"> 
+    <ion-item>
+      <ion-input label="Title" [(ngModel)]="category.title"></ion-input>
+    </ion-item>
+    <ion-textarea class="text-content" lines="none" [(ngModel)]="category.content"></ion-textarea>
+
+  </div>
+</ion-content>

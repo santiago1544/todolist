@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AuthenticationService } from '../authentication.service';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { query } from '@angular/animations';
 import { Observable } from 'rxjs';
 
 
@@ -10,12 +9,14 @@ export class Journal {
   userId?: string
   title?: string
   content?: string
+  categoryId?: string
   createdAt?: any
 
-  constructor(userId?: string, title?: string, content?: string, createdAt?: any) {
+  constructor(userId?: string, title?: string, content?: string, categoryId?: string, createdAt?: any) {
     this.userId = userId;
     this.title = title;
     this.content = content;
+    this.categoryId = categoryId;
     this.createdAt = createdAt;
   }
 }
@@ -59,7 +60,8 @@ export class JournalService {
   updateJournal(journal: Journal) {
     return this.afs.doc(`journals/${journal.id}`).update({
       title: journal.title,
-      content: journal.content
+      content: journal.content,
+      categoryId: journal.categoryId
     });
   }
 
@@ -67,4 +69,10 @@ export class JournalService {
     return this.afs.doc(`journals/${id}`).delete();
   }
 
+  getJournalsByCategory(userId: string, categoryId: string): Observable<Journal[]> {
+    return this.afs.collection<Journal>('journals', ref =>
+      ref.where('userId', '==', userId)
+        .where('categoryId', '==', categoryId)
+    ).valueChanges({ idField: 'id' });
+  }
 }

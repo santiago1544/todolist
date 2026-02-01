@@ -35,6 +35,14 @@ const routes: Routes = [
     path: 'journal',
     loadChildren: () => import('./pages/journal/journal.module').then( m => m.JournalPageModule)
   },
+  {
+    path: 'category',
+    loadChildren: () => import('./pages/category/category.module').then( m => m.CategoryPageModule)
+  },
+  {
+    path: 'categories',
+    loadChildren: () => import('./pages/categories/categories.module').then( m => m.CategoriesPageModule)
+  },
 ];
 
 @NgModule({
