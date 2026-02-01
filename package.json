@@ -8,6 +8,8 @@
     "start": "ng serve",
     "build": "ng build",
     "preinstall": "npm config set legacy-peer-deps true",
+    "install:ci": "npm install --legacy-peer-deps",
+    "postinstall": "npm install --force",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint"
