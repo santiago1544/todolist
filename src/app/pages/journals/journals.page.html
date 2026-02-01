@@ -1,32 +1,55 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>journals</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
+  <ion-header [translucent]="true">
     <ion-toolbar>
-      <ion-title size="large">journals</ion-title>
+      <ion-title>Journals</ion-title>
+      <ion-buttons slot="end">
+        <ion-button (click)="logout()">Sign out</ion-button>
+      </ion-buttons>
     </ion-toolbar>
   </ion-header>
 
-  <ion-grid>
-    <ion-row>
-      <ion-col sizeLg="4" sizeMd="4" size="6" *ngFor="let journal of journals" (click)="openJournal(journal)">
-        <ion-card>
-          <ion-card-header>
-            <ion-card-title class="title">{{ journal.title }}</ion-card-title>
-            <ion-card-subtitle color="secondary">3:00</ion-card-subtitle>
-          </ion-card-header>
+<ion-content [fullscreen]="true">
+  <ion-item>
+    <ion-label>Filter by category</ion-label>
+    <ion-select [(ngModel)]="filterCategoryId" placeholder="All categories">
+      <ion-select-option value="all">All</ion-select-option>
 
-          <ion-card-content class="content">
-            {{ journal.content | slice:0:100 }}
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+      <ion-select-option *ngFor="let cat of categories" [value]="cat.id">
+        {{ cat.title }}
+      </ion-select-option>
+    </ion-select>
+  </ion-item>
+
+
+ <ion-grid>
+  <ion-row>
+    <ion-col sizeLg="4" sizeMd="4" size="6" *ngFor="let journal of filteredJournals">
+      <ion-card (click)="openJournal(journal)">
+        
+        <ion-card-header class="card-header">
+          <div class="card-title-row">
+            <ion-card-title 
+              class="title"
+              [class.completed]="journal.completed">
+              {{ journal.title }}
+            </ion-card-title>
+
+            <ion-toggle
+              [checked]="journal.completed"
+              (click)="$event.stopPropagation()"
+              (ionChange)="toggleCompleted(journal)">
+            </ion-toggle>
+          </div>
+        </ion-card-header>
+
+        <ion-card-content class="content">
+          {{ journal.content | slice:0:100 }}
+        </ion-card-content>
+
+      </ion-card>
+    </ion-col>
+  </ion-row>
+</ion-grid>
+
 
 
   <ion-modal #modal [initialBreakpoint]="0.25" [breakpoints]="[0,0.25,0.5,0.75]" trigger="open-modal">
@@ -71,7 +94,7 @@
 
         
         <ion-textarea class="text-content" 
-        lines="none"
+        autoGrow="true"
         placeholder="Type something here"
         [(ngModel)]="content"
         ></ion-textarea>

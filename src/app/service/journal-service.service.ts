@@ -10,6 +10,7 @@ export class Journal {
   title?: string
   content?: string
   categoryId?: string
+  completed?: boolean 
   createdAt?: any
 
   constructor(userId?: string, title?: string, content?: string, categoryId?: string, createdAt?: any) {
@@ -61,7 +62,8 @@ export class JournalService {
     return this.afs.doc(`journals/${journal.id}`).update({
       title: journal.title,
       content: journal.content,
-      categoryId: journal.categoryId
+      categoryId: journal.categoryId,
+      completed: journal.completed
     });
   }
 

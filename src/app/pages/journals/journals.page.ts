@@ -4,6 +4,7 @@ import { AuthenticationService } from 'src/app/authentication.service';
 import { Journal, JournalService } from 'src/app/service/journal-service.service';
 import { JournalPage } from '../journal/journal.page';
 import { Category, CategoriesService } from 'src/app/service/categories-service.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-journals',
@@ -20,9 +21,11 @@ export class JournalsPage implements OnInit {
   journals: Journal[] = [];
   categories: Category[] = [];
   selectedCategoryId: string;
+  filterCategoryId: string = 'all';
 
-
-  constructor(private authService: AuthenticationService, private journalService: JournalService, private toastCtrl: ToastController, private categoryService: CategoriesService, private modalCtrl: ModalController) { }
+  constructor(private authService: AuthenticationService, private journalService: JournalService, private toastCtrl: ToastController, private categoryService: CategoriesService, private modalCtrl: ModalController,
+    private route: Router
+  ) { }
 
   cancel() {
     this.modal.dismiss(null, 'cancel');
@@ -38,7 +41,8 @@ export class JournalsPage implements OnInit {
       title: this.title,
       content: this.content,
       categoryId: this.selectedCategoryId,
-      createdAt: new Date()
+      createdAt: new Date(),
+      completed: false
     }).then(async () => {
       const toast = await this.toastCtrl.create({
         message: 'Journal added successfully',
@@ -83,6 +87,28 @@ export class JournalsPage implements OnInit {
 
     }).catch(error => {
       console.error('Error fetching profile:', error);
+    });
+  }
+
+  toggleCompleted(journal: Journal) {
+    journal.completed = !journal.completed;
+    this.journalService.updateJournal(journal);
+  }
+
+  get filteredJournals() {
+    if (this.filterCategoryId === 'all') {
+      return this.journals;
+    }
+
+    return this.journals.filter(j => j.categoryId === this.filterCategoryId);
+  }
+
+  async logout(){
+    this.authService.signOut().then(()=>{
+      console.log('User signed out successfully.');
+      this.route.navigate(['/landing']);
+    }).catch((error)=>{
+      console.error('Error signing out: ', error);
     });
   }
 
