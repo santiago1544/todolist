@@ -1,28 +1,28 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { IonModal, ModalController, ToastController } from '@ionic/angular';
 import { AuthenticationService } from 'src/app/authentication.service';
-import { Journal, JournalService } from 'src/app/service/journal-service.service';
-import { JournalPage } from '../journal/journal.page';
 import { Category, CategoriesService } from 'src/app/service/categories-service.service';
+import { CategoryPage } from '../category/category.page';
 
 @Component({
-  selector: 'app-journals',
+  selector: 'app-categories',
   standalone: false,
-  templateUrl: './journals.page.html',
-  styleUrls: ['./journals.page.scss'],
+  templateUrl: './categories.page.html',
+  styleUrls: ['./categories.page.scss'],
 })
-export class JournalsPage implements OnInit {
+export class CategoriesPage implements OnInit {
   @ViewChild(IonModal) modal!: IonModal;
 
-  userId:any
+  userId: any
   title: string
-  content: string
-  journals: Journal[] = [];
   categories: Category[] = [];
-  selectedCategoryId: string;
 
-
-  constructor(private authService: AuthenticationService, private journalService: JournalService, private toastCtrl: ToastController, private categoryService: CategoriesService, private modalCtrl: ModalController) { }
+  constructor(
+    private authService: AuthenticationService,
+    private categoriesService: CategoriesService,
+    private toastCtrl: ToastController,
+    private modalCtrl: ModalController
+  ) {}
 
   cancel() {
     this.modal.dismiss(null, 'cancel');
@@ -30,25 +30,23 @@ export class JournalsPage implements OnInit {
 
   confirm() {
     this.modal.dismiss('confirm');
-    this.addJournal();
+    this.addCategory();
   }
 
-  addJournal() {
-    this.journalService.addJournal({
+  addCategory() {
+    this.categoriesService.addCategory({
       title: this.title,
-      content: this.content,
-      categoryId: this.selectedCategoryId,
       createdAt: new Date()
     }).then(async () => {
       const toast = await this.toastCtrl.create({
-        message: 'Journal added successfully',
+        message: 'Category added successfully',
         duration: 2000,
         color: 'success'
       });
       toast.present();
-    } ).catch(async (error) => {
+    }).catch(async (error) => {
       const toast = await this.toastCtrl.create({
-        message: 'Error adding journal: ' + error,
+        message: 'Error adding category: ' + error,
         duration: 2000,
         color: 'danger'
       });
@@ -56,10 +54,10 @@ export class JournalsPage implements OnInit {
     });
   }
 
-  async openJournal(journal: Journal) {
+  async openCategory(category: Category) {
     const modal = await this.modalCtrl.create({
-      component: JournalPage,
-      componentProps: { id: journal.id },
+      component: CategoryPage,
+      componentProps: { id: category.id },
       breakpoints: [0, 0.5, 0.8],
       initialBreakpoint: 0.6
     });
@@ -69,21 +67,15 @@ export class JournalsPage implements OnInit {
   ngOnInit() {
     this.authService.getProfile().then(user => {
       this.userId = user.uid;
+      console.log('User ID:', this.userId);
 
-      // Journals
-      this.journalService.getJournal(this.userId).subscribe(res => {
-        this.journals = res;
-      });
-
-      // Categories
-      this.categoryService.getCategory(this.userId).subscribe(res => {
+      this.categoriesService.getCategory(this.userId).subscribe(res => {
         this.categories = res;
-        console.log('Categories:', this.categories);
+        console.log('Categories fetched:', this.categories);
       });
 
     }).catch(error => {
       console.error('Error fetching profile:', error);
     });
   }
-
 }

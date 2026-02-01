@@ -1,6 +1,8 @@
 import { Component, Input, input, OnInit } from '@angular/core';
 import { ModalController, ToastController } from '@ionic/angular';
 import { Journal, JournalService } from 'src/app/service/journal-service.service';
+import { Category, CategoriesService } from 'src/app/service/categories-service.service';
+import { AuthenticationService } from 'src/app/authentication.service';
 
 @Component({
   selector: 'app-journal',
@@ -12,31 +14,41 @@ export class JournalPage implements OnInit {
 @Input() id: string;
 
   journal:Journal
+  categories: Category[] = [];
+  selectedCategoryId: string;
 
-
-  constructor(private journalService: JournalService, private toastCtrl: ToastController, private modalCtrl: ModalController) {
-    
-  }
+  constructor(private authService: AuthenticationService, private journalService: JournalService, private toastCtrl: ToastController, private modalCtrl: ModalController, private categoryService: CategoriesService) {}
 
   ngOnInit() {
-    console.log(this.id);
 
-    this.journalService.getJournalById(this.id).subscribe(journals => {
-      this.journal = journals;
+    this.authService.getProfile().then(user => {
+      this.categoryService.getCategory(user.uid).subscribe(res => {
+        this.categories = res;
+      });
+    });
+
+    this.journalService.getJournalById(this.id).subscribe(journal => {
+      this.journal = journal;
+      this.selectedCategoryId = journal?.categoryId;
     });
   }
 
 
   async updateJournal() {
-    this.journalService.updateJournal(this.journal)
+    this.journal.categoryId = this.selectedCategoryId;
+
+    await this.journalService.updateJournal(this.journal);
+
     const toast = await this.toastCtrl.create({
       message: 'Journal updated successfully',
       duration: 2000,
       color: 'success'
     });
+
     await toast.present();
     this.modalCtrl.dismiss();
   }
+
 
   async deleteJournal() {
     this.journalService.removeJournal(this.journal.id);

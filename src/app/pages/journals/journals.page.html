@@ -51,13 +51,30 @@
             [(ngModel)]="title"
           ></ion-input>
         </ion-item>
+
+        <ion-item>
+          <ion-select
+            label="Category"
+            labelPlacement="stacked"
+            [(ngModel)]="selectedCategoryId"
+            placeholder="Select category">
+
+            <ion-select-option *ngFor="let cat of categories" [value]="cat.id">
+              {{ cat.title }}
+            </ion-select-option>
+
+          </ion-select>
+        </ion-item>
+        <ion-text color="warning" *ngIf="categories.length === 0">
+          Create a category first
+        </ion-text>
+
         
         <ion-textarea class="text-content" 
         lines="none"
         placeholder="Type something here"
         [(ngModel)]="content"
         ></ion-textarea>
-
 
       </ion-content>
     </ng-template>
@@ -66,6 +83,12 @@
   <ion-fab slot="fixed" vertical="bottom" horizontal="center">
     <ion-fab-button id="open-modal">
       <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <ion-fab vertical="bottom" horizontal="end" style="margin-bottom: 30px;">
+    <ion-fab-button [routerLink]="['/categories']">
+      <ion-icon name="chevron-forward"></ion-icon>
     </ion-fab-button>
   </ion-fab>
 </ion-content>
