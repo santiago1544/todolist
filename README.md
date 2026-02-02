@@ -1,6 +1,6 @@
 # Proyecto Web – Angular 20 - ionic 8
 
-Este proyecto es una aplicación móvil desarrollada con **Angular 20 - ionic 8**, enfocada en la construcción de una interfaz moderna, responsive, haciendo énfasis en un to do list en el cual se puede crear tareas, editarlas, eliminarlas, asignarles categorías y marcarlas como completadas o sin completar. Se pueden crear categorías con las mismas funcionalidades que las tareas. También se pueden filtrar las tareas por el tipo de categorías que tienen asignado cada una. Cuenta con un inicio de sesión y un registro, los usuarios, tareas y categorias se guardan en una base de datos creada con firebase.
+Este proyecto es una aplicación móvil desarrollada con **Angular 17 - ionic 8**, enfocada en la construcción de una interfaz moderna, responsive, haciendo énfasis en un to do list en el cual se puede crear tareas, editarlas, eliminarlas, asignarles categorías y marcarlas como completadas o sin completar. Se pueden crear categorías con las mismas funcionalidades que las tareas. También se pueden filtrar las tareas por el tipo de categorías que tienen asignado cada una. Cuenta con un inicio de sesión y un registro, los usuarios, tareas y categorias se guardan en una base de datos creada con firebase.
 
 El objetivo principal del proyecto es demostrar habilidades en **desarrollo Front-end mobile**, manejo de componentes standalone, diseño responsive y estructuración limpia del código.
 
@@ -8,7 +8,7 @@ El objetivo principal del proyecto es demostrar habilidades en **desarrollo Fron
 
 ## Tecnologías utilizadas
 
-- **Angular 20.0**
+- **Angular 17.0**
 - **Ionic 8.0**
 - **Firebase**
 - **TypeScript**
